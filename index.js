@@ -40,7 +40,7 @@ async function run() {
         app.put('/note/:id', async (req, res) => {
             const id = req.params.id;
             const data = req.body;
-            const filter = { _id: ObjectId(id) };
+            const query = { _id: ObjectId(id) };
             const options = { upsert: true };
             const updateDoc = {
                 $set: {
@@ -48,9 +48,17 @@ async function run() {
                     textData: data.textData,
                 },
             };
-            const result = await notesCollection.updateOne(filter, updateDoc, options);
+            const result = await notesCollection.updateOne(query, updateDoc, options);
             res.send(result);
         });
+
+        // Delete api
+        app.delete('/note/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await notesCollection.deleteOne(query);
+            res.send(result);
+        })
 
 
 
