@@ -20,10 +20,21 @@ async function run() {
         const notesCollection = client.db("notesTracker").collection("notes");
         console.log('db connected');
 
-       
+        // get api to read all notes data
+        app.get('/notes', async (req, res) => {
+            // const query = req.query;
+            const query = {};
+            const cursor = notesCollection.find(query);
+            const result = await cursor.toArray();
+            res.send(result);
         });
 
         // create notes
+        app.post('/note', async (req, res) => {
+            const data = req.body;
+            const result = await notesCollection.insertOne(data);
+            res.send(result);
+        });
 
         //update notesTracker
 
