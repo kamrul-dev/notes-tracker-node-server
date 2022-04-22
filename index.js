@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 const port = process.env.PORT || 5000;
 
@@ -36,7 +36,23 @@ async function run() {
             res.send(result);
         });
 
-        //update notesTracker
+        //update api notesTracker
+        app.put('/note/:id', async (req, res) => {
+            const id = req.params.id;
+            const data = req.body;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    userName: data.userName,
+                    textData: data.textData,
+                },
+            };
+            const result = await notesCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
+        });
+
+
 
     }
     finally {
