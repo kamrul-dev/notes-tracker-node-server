@@ -30,7 +30,7 @@ async function run() {
             res.send(result);
         });
 
-        // single data by id {Sigle data api}
+        // single data by id {Single data api}
         app.get('/note/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
@@ -39,6 +39,7 @@ async function run() {
         });
 
         // create notes
+        // post api: http://localhost:5000/note
         app.post('/note', async (req, res) => {
             const data = req.body;
             const result = await notesCollection.insertOne(data);
@@ -46,6 +47,7 @@ async function run() {
         });
 
         //update api notesTracker
+        //post api: http://localhost:5000/note/id
         app.put('/note/:id', async (req, res) => {
             const id = req.params.id;
             const data = req.body;
@@ -62,6 +64,7 @@ async function run() {
         });
 
         // Delete api
+        // api : http://localhost:5000/note/id
         app.delete('/note/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
