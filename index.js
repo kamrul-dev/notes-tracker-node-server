@@ -21,11 +21,20 @@ async function run() {
         console.log('db connected');
 
         // get api to read all notes data
+        // api: http://localhost:5000/notes
         app.get('/notes', async (req, res) => {
-            // const query = req.query;
-            const query = {};
+            const query = req.query;
+            // const query = {};
             const cursor = notesCollection.find(query);
             const result = await cursor.toArray();
+            res.send(result);
+        });
+
+        // single data by id {Sigle data api}
+        app.get('/note/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await notesCollection.findOne(query);
             res.send(result);
         });
 
